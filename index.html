@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <title>JuTeLabs-CGPA-Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header-container">
+        <div class="logo-container container">
+            <div class="logo-text">JuTeLabs </div>
+            <span class="sub-logo">CGPA</span>
+        </div> 
+        
+    </header>
+    <main class="main-container">
+        <section class="hero-container">
+            <div class="hero-container-text container">
+                <h2 class="hero-header">GP Calculator</h2>
+                <p class="hero-inner-text">
+                    Calculate your Cummulative Grade Point Average (CGPA) easily with our intuitive calculator. Add your courses, select grades and get instant results.
+                </p>
+            </div>
+        </section>
+        <section class="gp-container">
+            <div class="section-header">
+              <h3 class="section-title">Enter Your Courses</h3>
+              <div id="courseContainer" class="course-container">
+                <!-- dynamic content will come in here -->
+              </div>
+              <div class="button-group">
+                <button id="addCourseBtn" class="btn btn-primary">
+                  <span class="icon"><i class="ri-add-line"></i></span>
+                  Add Course
+                </button>
+                <button id="calculateBtn" class="btn btn-calc">
+                  Calculate GPA
+                </button>
+                <button id="resetBtn" class="btn btn-reset">
+                  Reset
+                </button>
+              </div>
+            </div>
+            <div id="resultCard" class="result-card">
+              <h3 class="section-title">Your Results</h3>
+              <div class="grid grid-cols-2">
+                <div class="result-item text-center">
+                  <p class="text-gray">Total GPA</p>
+                  <div class="flex">
+                    <span id="gpaResult" class="gpa-value">0.00</span>
+                    <span class="gpa-max">/4.00</span>
+                  </div>
+                </div>
+                <div class="result-item">
+                  <p class="text-gray">GPA Progress</p>
+                  <div class="progress-bar">
+                    <div id="gpaProgress" class="gp-progress" style="width: 0%"></div>
+                  </div>
+                  <div class="progress-labels">
+                    <span>0.0</span>
+                    <span>4.0</span>
+                  </div>
+                </div>
+              </div>
+              <div class="result-details">
+                <div class="detail-row">
+                  <p class="text-gray">Total Course Units:</p>
+                  <p id="totalUnits" class="detail-value">0</p>
+                </div>
+                <div class="detail-row">
+                  <p class="text-gray">Total Quality Points:</p>
+                  <p id="totalPoints" class="detail-value">0</p>
+                </div>
+                <div class="detail-row">
+                  <p class="text-gray">Grade:</p>
+                  <p id="totalGrade" class="detail-grade">0</p>
+                </div>
+              </div>
+              <div class="button-group">
+                <button id="saveResultBtn" class="btn btn-save">
+                  <span class="icon"><i class="ri-save-line"></i></span>
+                  Save Results
+                </button>
+                <button id="exportPdfBtn" class="btn btn-export">
+                  <span class="icon"><i class="ri-file-pdf-line"></i></span>
+                  Export PDF
+                </button>
+              </div>
+            </div>
+          </section>
+          <!-- Grading scale -->
+          <section class="grading-scale">
+            <h3 class="section-title">Grading Scale</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr class="table-header">
+                    <th class="table-cell">Grade</th>
+                    <th class="table-cell">Points</th>
+                    <th class="table-cell">Score (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="success">
+                    <td class="table-cell">A</td>
+                    <td class="table-cell">4.0</td>
+                    <td class="table-cell">75-100%</td>
+                  </tr>
+                  <tr>
+                    <td class="table-cell">AB</td>
+                    <td class="table-cell">3.50</td>
+                    <td class="table-cell">70-74%</td>
+                  </tr>
+                  <tr>
+                    <td class="table-cell">B</td>
+                    <td class="table-cell">3.25</td>
+                    <td class="table-cell">65-69%</td>
+                  </tr>
+                  <tr>
+                    <td class="table-cell">BC</td>
+                    <td class="table-cell">3.00</td>
+                    <td class="table-cell">60-64%</td>
+                  </tr>
+                  <tr>
+                    <td class="table-cell">C</td>
+                    <td class="table-cell">2.75</td>
+                    <td class="table-cell">55-59%</td>
+                  </tr>
+                  <tr>
+                    <td class="table-cell">CD</td>
+                    <td class="table-cell">2.50</td>
+                    <td class="table-cell">50-54%</td>
+                  </tr>
+                  <tr>
+                    <td class="table-cell">D</td>
+                    <td class="table-cell">2.25</td>
+                    <td class="table-cell">45-49%</td>
+                  </tr>
+                  <tr>
+                    <td class="table-cell">E</td>
+                    <td class="table-cell">2.00</td>
+                    <td class="table-cell">40-44%</td>
+                  </tr>
+                  <tr id="failure">
+                    <td class="table-cell">F</td>
+                    <td class="table-cell">0.00</td>
+                    <td class="table-cell">Below 40</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+    </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+              <div class="footer-brand">
+                <h3 class="brand-title">JuteLabs</h3>
+                <p class="brand-description">Empowering students with simple yet powerful tools to manage their academic Success.</p>
+                <div class="social-links">
+                  <a href="#" class="social-link"><i class="ri-twitter-x-line"></i></a>
+                  <a href="#" class="social-link"><i class="ri-instagram-line"></i></a>
+                  <a href="#" class="social-link"><i class="ri-linkedin-line"></i></a>
+                  <a href="#" class="social-link"><i class="ri-github-line"></i></a>
+                </div>
+              </div>
+              <div class="footer-contact">
+                <h4 class="contact-title">Contact Us</h4>
+                <ul class="contact-list">
+                  <li class="contact-item"><span class="contact-icon"><i class="ri-mail-line"></i></span><span class="contact-text">juliuschimaobi6@gmail.com</span></li>
+                  <li class="contact-item"><span class="contact-icon"><i class="ri-phone-line"></i></span><span class="contact-text">+2347068209902</span></li>
+                  <li class="contact-item"><span class="contact-icon"><i class="ri-map-pin-line"></i></span><span class="contact-text">Fed Poly Oko, Anambra State, Nigeria</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer-bottom">
+              <p class="footer-copy">© 2025 JuteLabs. All rights reserved.</p>
+              <div class="footer-links">
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Cookie Policy</a>
+              </div>
+            </div>
+          </div>
+    </footer>
+    <script src="index.js"></script>
+</body>
+</html>
