@@ -151,14 +151,23 @@ function calculateGPA() {
     showNotification("Please add at least one valid course", "error");
     return;
     }
+
     // Calculate GPA
     const gpa = totalQualityPoints / totalCourseUnits;
-    
+    if (gpa >= 3.50) {
+    totalGrade.textContent = "A Distinction";
+    } else if (gpa >= 3.00 && gpa < 3.50) {
+    totalGrade.textContent = "Upper Credit";
+    } else if (gpa >= 2.50 && gpa < 3.00) {
+    totalGrade.textContent = "Lower Credit";
+    } else if (gpa >= 2.00 && gpa < 2.50) {
+    totalGrade.textContent = "Pass";
+    } else {
+    totalGrade.textContent = "Fail";
+    }
+
     // Update result card
     gpaResult.textContent = gpa.toFixed(2);
-    if (gpaResult >= 3.50) {
-        totalGrade.textContent = "You've got A Distinction"
-    }
     totalUnits.textContent = totalCourseUnits;
     totalPoints.textContent = totalQualityPoints.toFixed(2);
     // Update progress bar
