@@ -24,12 +24,12 @@ function addCourseRow() {
     courseRow.dataset.id = courseCount;
     courseRow.innerHTML = `
 <div class="form-group col-span-4">
-  <label class="label">Course Code</label>
+  <label class="label">Course Title/Code</label>
   <input type="text" class="course-code" placeholder="e.g. CSC101">
 </div>
 
 <div class="form-group col-span-3">
-  <label class="label">Course Unit</label>
+  <label class="label">Course Unit/Load</label>
   <input type="number" min="1" max="6" class="course-unit" placeholder="1-6" value="3">
 </div>
 <div class="form-group col-span-4">
@@ -80,14 +80,82 @@ addCourseBtn.addEventListener("click", addCourseRow);
 calculateBtn.addEventListener("click", calculateGPA);
 // Reset button event listener
 resetBtn.addEventListener("click", resetCalculator);
-// Save results button event listener
+
+    // Save results button event listener
 saveResultBtn.addEventListener("click", function () {
+  const courseRows = document.querySelectorAll(".course-row");
+  const courses = [];
+
+  courseRows.forEach((row) => {
+    const courseCode = row.querySelector(".course-code").value.trim();
+    const courseUnit = row.querySelector(".course-unit").value.trim();
+    const courseGrade = row.querySelector(".course-grade").value.trim();
+
+    if (courseCode && courseUnit && courseGrade) {
+      courses.push({
+        code: courseCode,
+        unit: courseUnit,
+        grade: courseGrade,
+      });
+    }
+  });
+
+  const gpaData = {
+    courses: courses,
+    gpa: document.getElementById("gpaResult").textContent,
+    totalUnits: document.getElementById("totalUnits").textContent,
+    totalPoints: document.getElementById("totalPoints").textContent,
+    grade: document.getElementById("totalGrade").textContent,
+    timestamp: new Date().toISOString(),
+  };
+
+  try {
+    localStorage.setItem("savedGPA", JSON.stringify(gpaData));
     showNotification("Results saved successfully!", "success");
+  } catch (error) {
+    console.error("Error saving GPA data:", error);
+    showNotification("Failed to save results.", "error");
+  }
 });
+
+
 // Export PDF button event listener
 exportPdfBtn.addEventListener("click", function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+  
+    // Collect course data
+    const courseRows = document.querySelectorAll(".course-row");
+    const tableData = [];
+    courseRows.forEach((row) => {
+      const code = row.querySelector(".course-code").value.trim();
+      const unit = row.querySelector(".course-unit").value.trim();
+      const grade = row.querySelector(".course-grade").selectedOptions[0].text;
+      tableData.push([code, unit, grade]);
+    });
+  
+    // Add table to PDF
+    doc.autoTable({
+      head: [["Course Code", "Unit", "Grade"]],
+      body: tableData,
+      startY: 20,
+      theme: "grid",
+    });
+  
+    // Add GPA summary
+    doc.text(`GPA: ${gpaResult.textContent}`, 14, doc.lastAutoTable.finalY + 10);
+    doc.text(`Total Units: ${totalUnits.textContent}`, 14, doc.lastAutoTable.finalY + 20);
+    doc.text(`Total Points: ${totalPoints.textContent}`, 14, doc.lastAutoTable.finalY + 30);
+    doc.text(`Grade: ${totalGrade.textContent}`, 14, doc.lastAutoTable.finalY + 40);
+    doc.text(`Created By JuTeLabs`, 13, doc.lastAutoTable.finalY + 50);
+  
+    // Save the PDF
+    doc.save("GPA_Result.pdf");
     showNotification("PDF export initiated", "info");
-});
+  });
+  
+  
+  
 // Calculate GPA function
 function calculateGPA() {
     const courseRows = document.querySelectorAll(".course-row");
@@ -224,36 +292,39 @@ function showNotification(message, type) {
     // Create notification element
     const notification = document.createElement("div");
     notification.className =
-    "notification fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300 translate-x-full";
+    "notification";
     // Set notification style based on type
     if (type === "success") {
-    notification.classList.add("bg-green-500", "text-white");
-    notification.innerHTML = `
-<div class="flex items-center">
-<span class="w-5 h-5 flex items-center justify-center mr-2">
-<i class="ri-check-line"></i>
-</span>
-<span>${message}</span>
+        notification.style.backgroundColor = "#22c55e"; // green-500
+        notification.style.color = "#ffffff"; // white
+        notification.innerHTML = `
+<div class="notification-content">
+  <span class="icon-container">
+    <i class="ri-check-line"></i>
+  </span>
+  <span>${message}</span>
 </div>
 `;
     } else if (type === "error") {
-    notification.classList.add("bg-red-500", "text-white");
+    notification.style.backgroundColor = "#ef4444"; // red-500
+    notification.style.color = "#ffffff"; // white
     notification.innerHTML = `
-<div class="flex items-center">
-<span class="w-5 h-5 flex items-center justify-center mr-2">
-<i class="ri-error-warning-line"></i>
-</span>
-<span>${message}</span>
+<div class="notification-content">
+  <span class="icon-container">
+    <i class="ri-error-warning-line"></i>
+  </span>
+  <span>${message}</span>
 </div>
 `;
     } else {
-    notification.classList.add("bg-blue-500", "text-white");
+        notification.style.backgroundColor = "#3b82f6"; // blue-500
+        notification.style.color = "#ffffff"; // white
     notification.innerHTML = `
-<div class="flex items-center">
-<span class="w-5 h-5 flex items-center justify-center mr-2">
-<i class="ri-information-line"></i>
-</span>
-<span>${message}</span>
+<div class="notification-content">
+  <span class="icon-container">
+    <i class="ri-information-line"></i>
+  </span>
+  <span>${message}</span>
 </div>
 `;
     }
