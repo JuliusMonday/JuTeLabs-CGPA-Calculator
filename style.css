@@ -137,6 +137,50 @@ body {
   margin-left: auto;   
   margin-right: auto;  
 }
+/* USER CONTAINER */
+
+.user-details {
+  background: var(--bg-color);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+.user-details .section-title {
+  font-family: var(--Pacifico);
+  color: var(--primary-color);
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+.user-details .form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.user-details .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.user-details .form-group .label {
+  font-family: var(--Roboto);
+  margin-bottom: 0.5rem;
+  color: var(--secondary-color);
+  font-weight: 500;
+}
+.user-details .form-group input,
+.user-details .form-group select {
+  padding: 0.5rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 0.25rem;
+  font-family: var(--Roboto);
+  font-size: 1rem;
+  background: var(--white-bg);
+}
+.user-details .form-group input:focus,
+.user-details .form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(112, 87, 255, 0.2);
+}
 
 /* GP SECTION */
 .gp-container {
@@ -340,6 +384,11 @@ body {
   
 .form-group {
     margin-bottom: 1rem;
+  }
+  select, input:focus {
+    /* outline: none; */
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(112, 87, 255, 0.2);
   }
   .label {
     display: block;
