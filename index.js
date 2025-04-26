@@ -146,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const department = document.getElementById('department').value.trim() || 'N/A';
     const level = document.getElementById('level').value || 'N/A';
     const semester = document.getElementById('semester').value || 'N/A';
+    const regNumber = document.getElementById("regnumber").value || "N/A";
 
     // Draw header background
     doc.setFillColor(112, 87, 255); // #7057FF
@@ -154,7 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Header text
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(9);
-    const detailsText = `Name: ${fullName}   Department: ${department}   Level: ${level}   Semester: ${semester}`;
+    const detailsText = `Name: ${fullName}   Department: ${department}   Reg-No: ${regNumber}  
+     Level: ${level}   Semester: ${semester}`;
     doc.text(detailsText, marginLeft, marginLeft + headerHeight / 1.5);
 
     // Reset text color for rest
